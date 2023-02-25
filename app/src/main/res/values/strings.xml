@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">ComposeExpert</string>
+
+    <!--Bottom Navigation each string should go inside a string.xml from each feature in a multimodule-->
+
+    <string name="main_feed_screen_id">main_feed</string>
+    <string name="main_feed_screen_title">Main Feed</string>
+
+    <string name="favorites_screen_id">favorites</string>
+    <string name="favorites_screen_title">Favorites</string>
+
+    <string name="settings_screen_id">settings</string>
+    <string name="settings_screen_title">Settings</string>
+
+    <string name="add_screen_id">add</string>
+    <string name="add_screen_title">Add</string>
 </resources>
