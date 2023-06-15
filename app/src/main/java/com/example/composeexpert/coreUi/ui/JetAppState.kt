@@ -1,4 +1,4 @@
-package com.example.composeexpert.coreUi.main
+package com.example.composeexpert.coreUi.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -14,9 +14,9 @@ import com.example.composeexpert.coreUi.navigation.TopLevelDestination
 import com.example.composeexpert.feature.addX.addNavigationRoute
 import com.example.composeexpert.feature.addX.navigateToAddScreen
 import com.example.composeexpert.feature.favorites.favoritesNavigationRoute
-import com.example.composeexpert.feature.favorites.mainFeedNavigationRoute
+import com.example.composeexpert.feature.mainFeed.mainFeedNavigationRoute
 import com.example.composeexpert.feature.favorites.navigateToFavoriteScreen
-import com.example.composeexpert.feature.favorites.navigateToMainFeedScreen
+import com.example.composeexpert.feature.mainFeed.navigateToMainFeedScreen
 import com.example.composeexpert.feature.settings.navigateToSettingsScreen
 import com.example.composeexpert.feature.settings.settingsNavigationRoute
 import kotlinx.coroutines.CoroutineScope
@@ -45,7 +45,7 @@ class JetAppState(
     val coroutineScope: CoroutineScope
 ) {
     //gives you the visible composable that the user is currently seeing.
-    private val currentDestination: NavDestination?
+    val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val currentTopLevelDestination: TopLevelDestination?
@@ -65,7 +65,7 @@ class JetAppState(
 //        TopLevelDestination2.AddScreen
 //    )
 
-    private val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
 
     fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {

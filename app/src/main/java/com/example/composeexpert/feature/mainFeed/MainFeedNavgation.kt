@@ -1,4 +1,4 @@
-package com.example.composeexpert.feature.favorites
+package com.example.composeexpert.feature.mainFeed
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions

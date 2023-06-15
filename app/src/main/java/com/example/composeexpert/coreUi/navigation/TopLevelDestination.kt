@@ -5,7 +5,7 @@ import com.example.composeexpert.coreUi.designSystem.Icon
 import com.example.composeexpert.coreUi.designSystem.JetIcons
 import com.example.composeexpert.feature.addX.addNavigationRoute
 import com.example.composeexpert.feature.favorites.favoritesNavigationRoute
-import com.example.composeexpert.feature.favorites.mainFeedNavigationRoute
+import com.example.composeexpert.feature.mainFeed.mainFeedNavigationRoute
 import com.example.composeexpert.feature.settings.settingsNavigationRoute
 
 enum class TopLevelDestination(
