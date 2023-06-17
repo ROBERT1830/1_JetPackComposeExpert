@@ -1,19 +1,18 @@
 package com.example.composeexpert.coreUi.navigation
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.composeexpert.coreUi.designSystem.Icon
-import androidx.compose.material3.Icon
 
 @Composable
 fun JetBottomBar(
@@ -23,15 +22,15 @@ fun JetBottomBar(
     modifier: Modifier = Modifier,
 ) {
     JetNavigationBar(modifier = modifier) {
-        destinations.forEach { destiantion ->
-            val itemSelected = currentDestination.isTopLevelDestinationInHierarchy(destiantion)
+        destinations.forEach { destination ->
+            val itemSelected = currentDestination.isTopLevelDestinationInHierarchy(destination)
             JetNavigationBarItem(
                 selected = itemSelected,
-                onClick = { onNavigate(destiantion) },
+                onClick = { onNavigate(destination) },
                 icon = {
                     when (
-                        val icon = if (itemSelected) destiantion.selectedIcon
-                        else destiantion.unselectedIcon
+                        val icon = if (itemSelected) destination.selectedIcon
+                        else destination.unselectedIcon
                     ) {
                         is Icon.ImageVectorIcon -> Icon(
                             imageVector = icon.imageVector,
@@ -95,13 +94,13 @@ fun RowScope.JetNavigationBarItem(
 object JetNavigationDefaults {
 
     @Composable
-    fun bottomNavigationContainerColor() = Color.Transparent
+    fun bottomNavigationContainerColor() = MaterialTheme.colorScheme.surface
 
     @Composable
     fun bottomNavigationContentColor() = MaterialTheme.colorScheme.onSurface
 
     @Composable
-    fun bottomNavigationSelectedItemColor() = MaterialTheme.colorScheme.onPrimaryContainer
+    fun bottomNavigationSelectedItemColor() = MaterialTheme.colorScheme.primary
 
     @Composable
     fun bottomNavigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
@@ -110,5 +109,5 @@ object JetNavigationDefaults {
 
 private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLevelDestination) =
     this?.hierarchy?.any {
-        it.route?.contains(destination.name, true) ?: false
+        it.route?.contains(destination.route, true) ?: false
     } ?: false

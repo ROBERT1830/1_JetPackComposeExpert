@@ -11,14 +11,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.composeexpert.coreUi.navigation.TopLevelDestination
-import com.example.composeexpert.feature.addX.addNavigationRoute
+import com.example.composeexpert.coreUi.navigation.addNavigationRoute
+import com.example.composeexpert.coreUi.navigation.favoritesNavigationRoute
+import com.example.composeexpert.coreUi.navigation.mainFeedNavigationRoute
+import com.example.composeexpert.coreUi.navigation.settingsNavigationRoute
 import com.example.composeexpert.feature.addX.navigateToAddScreen
-import com.example.composeexpert.feature.favorites.favoritesNavigationRoute
-import com.example.composeexpert.feature.mainFeed.mainFeedNavigationRoute
 import com.example.composeexpert.feature.favorites.navigateToFavoriteScreen
 import com.example.composeexpert.feature.mainFeed.navigateToMainFeedScreen
 import com.example.composeexpert.feature.settings.navigateToSettingsScreen
-import com.example.composeexpert.feature.settings.settingsNavigationRoute
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -38,18 +38,21 @@ fun rememberJetAppState(
 /**
  * Class that manages general appState (currentDestinations, topLevelDestinations,
  * general on screen app composables like dialogs, network listening, navigation management etc...)
+ *
+ * @currentTopLevelDestination : Here we user the currentDestination route and removeSubRoute
+ * in order to have a basic route and perform actions in all screen related to a particular destination
+ * (Ex: showing gradient only in those screen related to MainFeed)
  */
 @Stable
 class JetAppState(
-    private val navController: NavHostController,
+    val navController: NavHostController,
     val coroutineScope: CoroutineScope
 ) {
     //gives you the visible composable that the user is currently seeing.
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
-
     val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() = when (currentDestination?.route) {
+        @Composable get() = when (currentDestination?.route?.removeSubRoute()) {
             mainFeedNavigationRoute -> TopLevelDestination.MAIN_FEED
             favoritesNavigationRoute -> TopLevelDestination.FAVORITES_SCREEN
             settingsNavigationRoute -> TopLevelDestination.SETTINGS_SCREEN
@@ -68,7 +71,7 @@ class JetAppState(
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
 
-    fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
+    fun navigateToTopLevelDestination(nextTopLevelDestination: TopLevelDestination) {
         navOptions {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
@@ -82,22 +85,26 @@ class JetAppState(
             // Restore state when reselecting a previously selected item
             restoreState = true
         }.also { navOptions ->
-            when (topLevelDestination) {
+            when (nextTopLevelDestination) {
                 TopLevelDestination.MAIN_FEED ->
                     navController.navigateToMainFeedScreen(navOptions)
+
                 TopLevelDestination.FAVORITES_SCREEN ->
                     navController.navigateToFavoriteScreen(navOptions)
+
                 TopLevelDestination.SETTINGS_SCREEN ->
                     navController.navigateToSettingsScreen(navOptions)
+
                 TopLevelDestination.ADD_SCREEN ->
                     navController.navigateToAddScreen(navOptions)
             }
         }
     }
 
-    val showBottomNavigation: Boolean
-        @Composable get () = topLevelDestinations.any {
-            currentDestination?.route.orEmpty().contains(it.route)
-        }
+//    val showBottomNavigation: Boolean
+//        @Composable get() = topLevelDestinations.any {
+//            currentDestination?.route.orEmpty().contains(it.route)
+//        }
 
 }
+fun String.removeSubRoute() = substringBeforeLast("/")

@@ -1,16 +1,20 @@
 package com.example.composeexpert.coreUi.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.composeexpert.coreUi.designSystem.component.JetBackGround
 import com.example.composeexpert.coreUi.designSystem.component.JetGradientBackGround
 import com.example.composeexpert.coreUi.designSystem.theme.GradientColors
 import com.example.composeexpert.coreUi.designSystem.theme.LocalGradientColors
 import com.example.composeexpert.coreUi.navigation.JetBottomBar
+import com.example.composeexpert.coreUi.navigation.JetNavigation
 import com.example.composeexpert.coreUi.navigation.TopLevelDestination
 
 @Composable
@@ -30,7 +34,9 @@ fun JetApp(
             }
         ) {
             JetScaffold(appState) { paddingValues ->
-
+                Box(modifier = Modifier.padding(paddingValues)){
+                    JetNavigation(jetAppState = appState)
+                }
             }
         }
     }
