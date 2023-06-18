@@ -4,13 +4,14 @@ import android.app.Activity
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.ViewCompat
@@ -90,10 +91,10 @@ fun ComposeExpertTheme(
 ) {
 
     val colorScheme = when {
-        dynamicColor && supportsDynamicTheming() -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+//        supportsDynamicTheming() -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -106,20 +107,28 @@ fun ComposeExpertTheme(
         container = colorScheme.surface,
     )
 
-    val gradientColors = when {
-        supportsDynamicTheming() -> emptyGradientColors
-        else -> defaultGradientColors
-    }
+//    val gradientColors = when {
+//        supportsDynamicTheming() -> emptyGradientColors
+//        else -> defaultGradientColors
+//    }
+
+    val gradientColors =
+        defaultGradientColors
+
 
     val defaultBackGroundTheme = BackGroundTheme(
         color = colorScheme.surface,
         tonalElevation = 2.dp
     )
 
-    val tintTheme = when {
-        supportsDynamicTheming() -> TintTheme(colorScheme.primary)
-        else -> TintTheme()
-    }
+//    val tintTheme = when {
+//        supportsDynamicTheming() -> TintTheme(colorScheme.primary)
+//        else -> TintTheme()
+//    }
+
+    val tintTheme =
+         TintTheme()
+
 
     val view = LocalView.current
     if (!view.isInEditMode) {
