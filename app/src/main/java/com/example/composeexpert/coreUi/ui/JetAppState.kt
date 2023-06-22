@@ -1,5 +1,7 @@
 package com.example.composeexpert.coreUi.ui
 
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -28,10 +30,11 @@ import kotlinx.coroutines.CoroutineScope
  */
 @Composable
 fun rememberJetAppState(
+    windowSize: WindowSizeClass? = null,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
 ): JetAppState = remember(coroutineScope, navController) {
-    JetAppState(navController, coroutineScope)
+    JetAppState(navController, coroutineScope, windowSize)
 }
 
 
@@ -46,7 +49,8 @@ fun rememberJetAppState(
 @Stable
 class JetAppState(
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope
+    val coroutineScope: CoroutineScope,
+    private val windowSize: WindowSizeClass?,
 ) {
     //gives you the visible composable that the user is currently seeing.
     val currentDestination: NavDestination?
@@ -60,13 +64,12 @@ class JetAppState(
             else -> null
         }
 
-    //this could be done by using enum, so that here in only just one line we have our list.
-//    val topLevelDestinations: List<TopLevelDestination2> = listOf(
-//        TopLevelDestination2.MainFeedScreen,
-//        TopLevelDestination2.FavoritesScreen,
-//        TopLevelDestination2.SettingScreen,
-//        TopLevelDestination2.AddScreen
-//    )
+    //only show bottomBar when is compact screen
+    val shouldShowBottomBar: Boolean
+        get() = windowSize?.widthSizeClass == WindowWidthSizeClass.Compact
+
+    val shouldShowNavRail: Boolean
+        get() = !shouldShowBottomBar
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
