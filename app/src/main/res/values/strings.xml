@@ -3,15 +3,15 @@
 
     <!--Bottom Navigation each string should go inside a string.xml from each feature in a multimodule-->
 
-    <string name="main_feed_screen_id">main_feed</string>
-    <string name="main_feed_screen_title">Main Feed</string>
+    <string name="main_feed_screen_icon_id">Main</string>
+    <string name="main_feed_screen_title_id">Main Feed</string>
 
-    <string name="favorites_screen_id">favorites</string>
-    <string name="favorites_screen_title">Favorites</string>
+    <string name="favorites_screen_icon_id">favorites</string>
+    <string name="favorites_screen_title_id">Favorites</string>
 
-    <string name="settings_screen_id">settings</string>
-    <string name="settings_screen_title">Settings</string>
+    <string name="settings_screen_icon_id">settings</string>
+    <string name="settings_screen_title_id">Settings</string>
 
-    <string name="add_screen_id">add</string>
-    <string name="add_screen_title">Add</string>
+    <string name="add_screen_icon_id">add</string>
+    <string name="add_screen_title_id">Add</string>
 </resources>

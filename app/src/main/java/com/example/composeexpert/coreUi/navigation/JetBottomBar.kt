@@ -1,26 +1,25 @@
 package com.example.composeexpert.coreUi.navigation
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import com.example.composeexpert.coreUi.designSystem.Icon
+import com.example.composeexpert.coreUi.util.isTopLevelDestinationInHierarchy
 
 @Composable
-fun JetBottomBar(
+fun JetBottomBar2(
     destinations: List<TopLevelDestination>,
     onNavigate: (destination: TopLevelDestination) -> Unit,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
-) {
+){
     JetNavigationBar(modifier = modifier) {
         destinations.forEach { destination ->
             val itemSelected = currentDestination.isTopLevelDestinationInHierarchy(destination)
@@ -28,21 +27,12 @@ fun JetBottomBar(
                 selected = itemSelected,
                 onClick = { onNavigate(destination) },
                 icon = {
-                    when (
-                        val icon = if (itemSelected) destination.selectedIcon
-                        else destination.unselectedIcon
-                    ) {
-                        is Icon.ImageVectorIcon -> Icon(
-                            imageVector = icon.imageVector,
-                            contentDescription = null, //change for asString() the resource
-                        )
-
-                        is Icon.DrawableResourceIcon -> Icon(
-                            painter = painterResource(id = icon.id),
-                            contentDescription = null
-                        )
-                    }
-                }
+                    NavigationIconSelector(
+                        itemSelected = itemSelected,
+                        destination = destination
+                    )
+                },
+                label = { Text(stringResource(destination.iconLabelId)) },
             )
         }
     }
@@ -55,8 +45,8 @@ fun JetNavigationBar(
 ) {
     NavigationBar(
         modifier = modifier,
-        containerColor = JetNavigationDefaults.bottomNavigationContainerColor(),
-        contentColor = JetNavigationDefaults.bottomNavigationContentColor(),
+        containerColor = JetBottomNavigationDefaults.bottomNavigationContainerColor(),
+        contentColor = JetBottomNavigationDefaults.bottomNavigationContentColor(),
         tonalElevation = 0.dp,
         content = content
     )
@@ -82,16 +72,17 @@ fun RowScope.JetNavigationBarItem(
         label = label,
         alwaysShowLabel = alwaysShowLabel,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = JetNavigationDefaults.bottomNavigationSelectedItemColor(),
-            unselectedIconColor = JetNavigationDefaults.bottomNavigationContentColor(),
-            unselectedTextColor = JetNavigationDefaults.bottomNavigationContentColor(),
-            indicatorColor = JetNavigationDefaults.bottomNavigationIndicatorColor(),
+            selectedIconColor = JetBottomNavigationDefaults.bottomNavigationSelectedItemColor(),
+            unselectedIconColor = JetBottomNavigationDefaults.bottomNavigationContentColor(),
+            selectedTextColor = JetBottomNavigationDefaults.bottomNavigationSelectedItemColor(),
+            unselectedTextColor = JetBottomNavigationDefaults.bottomNavigationContentColor(),
+            indicatorColor = JetBottomNavigationDefaults.bottomNavigationIndicatorColor(),
         )
     )
 }
 
 
-object JetNavigationDefaults {
+object JetBottomNavigationDefaults {
 
     @Composable
     fun bottomNavigationContainerColor() = MaterialTheme.colorScheme.surface
@@ -105,9 +96,3 @@ object JetNavigationDefaults {
     @Composable
     fun bottomNavigationIndicatorColor() = MaterialTheme.colorScheme.primaryContainer
 }
-
-
-private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLevelDestination) =
-    this?.hierarchy?.any {
-        it.route?.contains(destination.route, true) ?: false
-    } ?: false
