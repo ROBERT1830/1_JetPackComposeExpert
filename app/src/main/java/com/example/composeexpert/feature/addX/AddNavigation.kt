@@ -13,7 +13,7 @@ fun NavController.navigateToAddScreen(navOptions: NavOptions? = null) {
     this.navigate(JetAppFeature.ADD.route, navOptions)
 }
 
-fun NavGraphBuilder.addNav(jetAppState: JetAppState) {
+fun NavGraphBuilder.addScreen(jetAppState: JetAppState) {
     navigation(
         startDestination = NavigationCommand.GoToMain(JetAppFeature.ADD).route,
         route = JetAppFeature.ADD.route

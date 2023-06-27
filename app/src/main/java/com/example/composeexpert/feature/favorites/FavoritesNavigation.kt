@@ -13,7 +13,7 @@ fun NavController.navigateToFavoriteScreen(navOptions: NavOptions? = null) {
     this.navigate(JetAppFeature.FAVORITES.route, navOptions)
 }
 
-fun NavGraphBuilder.favoritesNav(jetAppState: JetAppState) {
+fun NavGraphBuilder.favoritesScreen(jetAppState: JetAppState) {
     navigation(
         startDestination = NavigationCommand.GoToMain(JetAppFeature.FAVORITES).route,
         route = JetAppFeature.FAVORITES.route

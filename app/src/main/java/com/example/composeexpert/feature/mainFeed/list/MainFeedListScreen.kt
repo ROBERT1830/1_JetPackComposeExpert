@@ -5,10 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun MainFeedScreen(onItemClick: (itemId: Int) -> Unit) {
+fun MainFeedScreen(onItemClick: (itemId: String) -> Unit) {
     Text(text = "Main Feed Screen")
     Button(
-        onClick = { onItemClick(1) }
+        onClick = { onItemClick("1") }
     ) {
         Text(text = "Details'")
     }
