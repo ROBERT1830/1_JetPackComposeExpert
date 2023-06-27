@@ -1,5 +1,6 @@
 package com.example.composeexpert.coreUi.navigation
 
+import android.graphics.Color
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -166,7 +167,7 @@ fun JetNavigationRail(
                 label = { Text(stringResource(destination.iconLabelId)) },
                 alwaysShowLabel = alwaysShowIconLabel,
                 colors = NavigationRailItemDefaults.colors(
-                    selectedIconColor =  NavigationSystemDefaults.navigationSelectedItemColor(),
+                    selectedIconColor =  NavigationSystemDefaults.navigationContentColor(),
                     unselectedIconColor = NavigationSystemDefaults.navigationContentColor(),
                     selectedTextColor = NavigationSystemDefaults.navigationSelectedItemColor(),
                     unselectedTextColor = NavigationSystemDefaults.navigationContentColor(),
@@ -176,6 +177,14 @@ fun JetNavigationRail(
         }
     }
 }
+
+//init data class when builder is crated
+data class DefColor(
+    val myColor1: androidx.compose.ui.graphics.Color? = null,
+    val myColor2: Color
+)
+
+//colors can be optional with default colors.
 
 object NavigationSystemDefaults {
 

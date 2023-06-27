@@ -103,11 +103,11 @@ fun JetAppContent(
 @Composable
 fun BottomBar(appState: JetAppState) {
     NavigationSystem.Builder(NavigationType.BottomNavigation)
-        .destinations(appState.topLevelDestinations)
-        .currentDestination(appState.currentDestination)
-        .modifier(Modifier)
-        .alwaysShowIconLabel(false)
-        .disableItems(DisableOption.None)
+        .destinations(appState.topLevelDestinations) //mandatory
+        .currentDestination(appState.currentDestination) //mandatory
+        .modifier(Modifier)//init in the builder
+        .alwaysShowIconLabel(false)//init in the builder
+        .disableItems(DisableOption.None) //init in the builder
         .Build(onNavigate = appState::navigateToTopLevelDestination)
 }
 

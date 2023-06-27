@@ -13,7 +13,7 @@ fun NavController.navigateToSettingsScreen(navOptions: NavOptions? = null) {
     this.navigate(JetAppFeature.SETTINGS.route, navOptions)
 }
 
-fun NavGraphBuilder.settingNav(jetAppState: JetAppState) {
+fun NavGraphBuilder.settingsScreen(jetAppState: JetAppState) {
     navigation(
         startDestination = NavigationCommand.GoToMain(JetAppFeature.SETTINGS).route,
         route = JetAppFeature.SETTINGS.route
