@@ -14,4 +14,8 @@
 
     <string name="add_screen_icon_id">add</string>
     <string name="add_screen_title_id">Add</string>
+
+    <!-- internet connection -->
+    <string name="not_connected">⚠️ You aren’t connected to the internet</string>
+    <string name="connected"> You are back online again</string>
 </resources>

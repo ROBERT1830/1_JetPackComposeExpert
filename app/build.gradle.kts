@@ -63,6 +63,7 @@ dependencies {
         implementation(compose)
         implementation(coroutines)
         implementation(network)
+        implementation(lifecycle)
     }
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
