@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.example.composeexpert.core.network.INetworkMonitor
 import com.example.composeexpert.coreUi.navigation.TopLevelDestination
 import com.example.composeexpert.coreUi.navigation.addNavigationRoute
 import com.example.composeexpert.coreUi.navigation.favoritesNavigationRoute
@@ -22,6 +23,9 @@ import com.example.composeexpert.feature.favorites.navigateToFavoriteScreen
 import com.example.composeexpert.feature.mainFeed.navigateToMainFeedScreen
 import com.example.composeexpert.feature.settings.navigateToSettingsScreen
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 /**
  * Function that establish the entry point of app state.
@@ -30,11 +34,12 @@ import kotlinx.coroutines.CoroutineScope
  */
 @Composable
 fun rememberJetAppState(
+    networkMonitor: INetworkMonitor,
     windowSize: WindowSizeClass? = null,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: NavHostController = rememberNavController(),
-): JetAppState = remember(coroutineScope, navController) {
-    JetAppState(navController, coroutineScope, windowSize)
+): JetAppState = remember(networkMonitor ,coroutineScope, navController) {
+    JetAppState(networkMonitor, navController, coroutineScope, windowSize)
 }
 
 
@@ -48,13 +53,30 @@ fun rememberJetAppState(
  */
 @Stable
 class JetAppState(
+    val networkMonitor: INetworkMonitor,
     val navController: NavHostController,
     val coroutineScope: CoroutineScope,
     private val windowSize: WindowSizeClass?,
 ) {
+
+    val isOffline = networkMonitor.isDeviceOnline
+        .map(Boolean::not)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false
+        )
+
+    //only show bottomBar when is compact screen
+    val shouldShowBottomBar: Boolean
+        get() = windowSize?.widthSizeClass == WindowWidthSizeClass.Compact
+
+    val shouldShowNavRail: Boolean
+        get() = !shouldShowBottomBar
     //gives you the visible composable that the user is currently seeing.
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
+
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route?.removeSubRoute()) {
             mainFeedNavigationRoute -> TopLevelDestination.MAIN_FEED
@@ -63,13 +85,6 @@ class JetAppState(
             addNavigationRoute -> TopLevelDestination.ADD_SCREEN
             else -> null
         }
-
-    //only show bottomBar when is compact screen
-    val shouldShowBottomBar: Boolean
-        get() = windowSize?.widthSizeClass == WindowWidthSizeClass.Compact
-
-    val shouldShowNavRail: Boolean
-        get() = !shouldShowBottomBar
 
     val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
