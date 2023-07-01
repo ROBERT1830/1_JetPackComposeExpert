@@ -53,9 +53,9 @@ fun rememberJetAppState(
  */
 @Stable
 class JetAppState(
-    val networkMonitor: INetworkMonitor,
+    private val networkMonitor: INetworkMonitor,
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope,
     private val windowSize: WindowSizeClass?,
 ) {
 

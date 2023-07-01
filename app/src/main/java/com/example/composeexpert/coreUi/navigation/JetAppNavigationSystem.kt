@@ -1,6 +1,7 @@
 package com.example.composeexpert.coreUi.navigation
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
@@ -17,6 +18,7 @@ import com.example.composeexpert.feature.favorites.favoritesScreen
 import com.example.composeexpert.feature.mainFeed.mainFeedGraph
 import com.example.composeexpert.feature.settings.settingsScreen
 
+const val TAG = "nav_system_dbg"
 @Composable
 fun JetNavigation(jetAppState: JetAppState) {
     NavHost(
@@ -51,7 +53,13 @@ sealed class NavigationCommand(
             "${jetAppFeature.route}/$subRoute/${Uri.encode(itemId)}"
     }
 
+
     val route = kotlin.run {
+        Log.d(TAG, "-----> ${ "${jetAppFeature.route}/$subRoute"
+            .plus(getMandatoryArguments())
+            .plus(getOptionArguments())}")
+
+
         "${jetAppFeature.route}/$subRoute"
             .plus(getMandatoryArguments())
             .plus(getOptionArguments())

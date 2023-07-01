@@ -1,11 +1,13 @@
 package com.example.composeexpert.feature.mainFeed
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.navigation
 import com.example.composeexpert.coreUi.navigation.JetAppFeature
 import com.example.composeexpert.coreUi.navigation.NavigationCommand
+import com.example.composeexpert.coreUi.navigation.TAG
 import com.example.composeexpert.coreUi.navigation.jetAppComposable
 import com.example.composeexpert.feature.mainFeed.list.MainFeedScreen
 
@@ -17,6 +19,9 @@ fun NavGraphBuilder.mainFeedGraph(
     nestedGraphs: NavGraphBuilder.() -> Unit,
     onItemClick: (itemId: String) -> Unit,
 ) {
+    Log.d(
+        TAG, "-----> ${NavigationCommand.GoToMain(JetAppFeature.MAIN).route}")
+
     navigation(
         startDestination = NavigationCommand.GoToMain(JetAppFeature.MAIN).route,
         route = JetAppFeature.MAIN.route
